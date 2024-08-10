@@ -1,0 +1,118 @@
+.list-leave {
+  ion-list {
+    padding: 10px;
+  }
+}
+.item_name {
+  padding: 5px 10px 1px;
+}
+.leave-header {
+  padding-bottom: 100px;
+  background: #016d94;
+}
+.leave-header-content {
+  margin-top: -90px;
+ 
+}
+.card-main{
+    padding: 10px;
+}
+.text-container {
+  text-align: center;
+  font-size: 12px;
+  color: #707070;
+  .number {
+    font-weight: 600;
+    font-size: 14px;
+    padding-bottom: 5px;
+  }
+}
+.scroll-horizontal {
+  overflow: auto;
+  white-space: nowrap;
+  div{
+    display: inline-block;
+    text-align: center;
+    padding: 0px 12px;
+    text-decoration: none;
+    .h-button{
+
+            font-size: 12px;
+            /* background: transparent; */
+            color: #111;
+            background: #fff !important;
+            padding: 10px;
+            border: 1px solid #c4c4c4;
+    }
+    .active{
+        color: #016d94;
+    }
+  }
+}
+.text-container-leave{
+    font-size: 12px;
+    color: #707070;
+    .number{
+        color: #494949;
+        padding-top: 4px;
+        font-weight: 600;
+    }
+    .status{
+        color:gray
+    }
+}
+.border{
+    height: 1px;
+    background:#e5e5e5;
+}
+.Reject{
+    color:var(--ion-color-danger)
+}
+.Accept{
+    color:var(--ion-color-success)
+}
+.Pending{
+    color:var(--ion-color-warning)
+}
+.status{
+    font-size: 12px;
+    text-align: right;
+    span{
+        margin-left: 1px;
+    }
+}
+.fab-btn{
+    height: 35px;
+    width: 35px;
+}
+.fixed-fab{
+    --background: transparent;
+    // --background: #f44336;
+    --color: #fff;
+}
+    
+.file_btn{
+  width: 100%;
+  --background: white !important;
+  color: #016d94;
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid;
+  border-radius: 5px;
+  height: 40px;
+  ion-icon{
+    color: #016d94;
+  }
+}
+.custom-button{
+  height: 40px;
+}
+
+.prevImage{
+  height: 200px;
+}
+.application_status{
+  font-size: 14px;
+  font-weight: bold;
+  color: #111;
+}

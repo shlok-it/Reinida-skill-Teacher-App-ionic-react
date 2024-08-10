@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "378518469998",
+    "project_id": "shlok-it-solution",
+    "storage_bucket": "shlok-it-solution.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:378518469998:android:d2ce3b1369f28b5e62557f",
+        "android_client_info": {
+          "package_name": "com.reindiaskill.teacher"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "111844111436294040510",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgu3uXzrS2ouZHqJrKZ46l_yT7Hi9HikM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "111844111436294040510",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:378518469998:android:b8bd91b1e426cbff62557f",
+        "android_client_info": {
+          "package_name": "dhirendracharyajimaharaj.in"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "111844111436294040510",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgu3uXzrS2ouZHqJrKZ46l_yT7Hi9HikM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "111844111436294040510",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

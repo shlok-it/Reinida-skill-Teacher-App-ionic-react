@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">ReIndiaskill</string>
+    <string name="title_activity_main">ReIndiaskill</string>
+    <string name="package_name">com.reindiaskill.teacher</string>
+    <string name="custom_url_scheme">com.reindiaskill.teacher</string>
+</resources>
