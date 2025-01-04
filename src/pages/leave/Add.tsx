@@ -57,8 +57,8 @@ const Add = (props:any) => {
             <IonItem lines="none">
               <IonInput
                 type="date"
-                fill="solid"
                 value={props.values.date_from}
+                fill="solid"
                 placeholder="Start Date"
                 name="date_from"
                 label="From Date"

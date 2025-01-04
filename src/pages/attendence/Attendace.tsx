@@ -58,7 +58,7 @@ const Attendace: React.FC = () => {
   useEffect(() => {
     setIsSkelton(true);
     getAttendence();
-  }, [refreshcount,values ]);
+  }, [refreshcount, values]);
 
   const backButton: any = () => {
     ionRouter.goBack();
@@ -133,7 +133,7 @@ const Attendace: React.FC = () => {
                   <div className="text">
                     {item.phototype ? "Check " + item.phototype : ""}
                   </div>
-                  <div className={"number"}>{formatDateTime(item.created_at,'time')}</div>
+                  <div className={"number"}>{formatDateTime(item.created_at, 'time')}</div>
                 </div>
               </div>
             </div>
@@ -163,20 +163,20 @@ const Attendace: React.FC = () => {
     }
   };
 
-/*  const getUserLeave = (date: any, type: any) => {
-    if (date.length > 0) {
-      return date.map((item: any, index: number) => {
-        if (index === 1) return "";
-        return (
-          <span key={index}>
-            {type == "userLeave" ? item.leavetype : item.leave_resion}
-          </span>
-        );
-      });
-    } else {
-      return "";
-    }
-  };*/
+  /*  const getUserLeave = (date: any, type: any) => {
+      if (date.length > 0) {
+        return date.map((item: any, index: number) => {
+          if (index === 1) return "";
+          return (
+            <span key={index}>
+              {type == "userLeave" ? item.leavetype : item.leave_resion}
+            </span>
+          );
+        });
+      } else {
+        return "";
+      }
+    };*/
   return (
     <IonPage className="">
       <IonContent>

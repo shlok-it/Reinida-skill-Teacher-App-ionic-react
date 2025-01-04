@@ -1,58 +1,36 @@
 import {
   IonButton,
   IonCol,
-  IonAvatar,
   IonContent,
-  IonFooter,
-  IonGrid,
   IonIcon,
-  IonImg,
   IonPage,
-  IonRouterLink,
   IonRow,
   IonLabel,
   IonCard,
-  useIonLoading,
-  IonChip,
   IonCardHeader,
-  IonCardContent,
   IonText,
-  useIonAlert,
   IonItem,
-  IonCardTitle,
   IonCardSubtitle,
   IonList,
-  IonListHeader,
   IonNote,
   IonItemDivider,
-  IonButtons,
   IonRefresher,
   IonRefresherContent,
   RefresherEventDetail,
-  useIonViewWillEnter,
-  useIonViewDidEnter,
   useIonRouter,
-  IonToggle,
   IonSkeletonText,
   isPlatform,
 } from "@ionic/react";
 import {
-  gridOutline,
-  homeOutline,
-  personOutline,
-  notifications,
-  cubeOutline,
   logOutOutline,
   calendarNumberOutline,
   logInOutline,
   checkmarkCircleOutline,
   locationOutline,
-  moon,
 } from "ionicons/icons";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { useEffect, useState } from "react";
 import BaseUrl from "../../connect/Config";
-import { userplaceholder } from "../../connect/Images";
 
 import { formatDateTime, formatTime } from "../../helper/general";
 import "./dashboard.scss";
@@ -65,12 +43,15 @@ import Loader from "../../components/Loader";
 import { SwiprPage } from "../../components/SwiperPage";
 import { ProfileImage } from "../../components/ProfileImage";
 import { userStatusBar } from "../../hooks/userStatusBar";
-import { ActionPerformed, PushNotificationSchema, PushNotifications, Token } from "@capacitor/push-notifications";
-import { Alert } from "../../hooks/Alert";
 import { NotificationIcon } from "../../components/NotificationIcon";
+import { OneSignalService } from "./OneSignalService";
+import secureLocalStorage from "react-secure-storage";
+
+
 const Dashboard: React.FC = () => {
   const { location, enableLocation } = deviceLocation();
   const { devideInfo, logDeviceInfo } = deviceInfo();
+  const { startInitialize } = OneSignalService();
   const { takePhoto, photos, deletePhoto } = usePhoto();
   const [isOpen, setIsOpen] = useState(false);
   const [refreshcount, setRefreshcount] = useState(0);
@@ -88,13 +69,11 @@ const Dashboard: React.FC = () => {
   const [isCheckedIn, setisCheckedIn] = useState<boolean>(true);
   const [isCheckedOut, setisCheckedOut] = useState<boolean>(true);
   const [photosdes, setPhotodes] = useState("IN");
-  const [notification, setNotification] = useState("");
   const ionRouter = useIonRouter();
   const [isLoading, setIsLoading] = useState(false);
   const dateTime = formatDateTime(new Date());
   const { call_secure_api, call_secure_get_api } = apiCall();
   const { lightStatusBar } = userStatusBar();
-  const { simpleAlert } = Alert();
   useEffect(() => {
     dashboarData();
     lightStatusBar();
@@ -104,13 +83,15 @@ const Dashboard: React.FC = () => {
     if (photos) {
       setIsOpen(true);
     }
-    if (isPlatform("capacitor")) {
-      // console.log(Object.keys(devideInfo).length,'length')
-      if(Object.keys(devideInfo).length>0){
-        registerNotifications();
-      }
-    }
   }, [photos, refreshcount]);
+  
+  useEffect(() => {   
+       if (isPlatform("capacitor") && Object.keys(devideInfo).length>0) {
+        if(!secureLocalStorage.getItem("one_token")){
+          startInitialize(devideInfo);
+        }
+    }
+  }, [devideInfo]);
 
   const takattendence = (photo: string) => {
     setPhotodes(photo);
@@ -144,51 +125,6 @@ const Dashboard: React.FC = () => {
     );
   };
 
-  const registerNotifications = async () => {
-    // await this.appupdatestatus.startUpdate();
-
-    // iOS will prompt user and return if they granted permission or not
-    // Android will just grant without prompting
-    let permStatus = await PushNotifications.checkPermissions();
-
-    if (permStatus.receive === "prompt") {
-      permStatus = await PushNotifications.requestPermissions();
-    }
-
-    if (permStatus.receive !== "granted") {
-      // throw new Error("User denied permissions!");
-    }
-    await PushNotifications.register();
-
-    PushNotifications.addListener("registration", (token: Token) => {
-      // console.log('Push registration success, token: ' + token.value);
-      saveFcmToken(token.value);
-      
-    });
-
-    PushNotifications.addListener("registrationError", (error: any) => {
-      // console.log('Error on registration: ' + JSON.stringify(error));
-    });
-
-    PushNotifications.addListener(
-      "pushNotificationReceived",
-      (notification: PushNotificationSchema) => {
-        // console.log('Push received: ' + JSON.stringify(notification));
-        // const data = JSON.stringify(notification.body);
-        setNotification((prps)=>prps+notification.body);
-        showToast(notification.body)
-        getCount();
-      }
-    );
-
-    PushNotifications.addListener(
-      "pushNotificationActionPerformed",
-      (notification: ActionPerformed) => {
-        // console.log('Push action performed: ' + JSON.stringify(notification));
-        showNotification("notification");
-      }
-    );
-  };
   const getCount = () => {
     call_secure_get_api("notification/count").then(
       async (resolve: any) => {
@@ -200,28 +136,8 @@ const Dashboard: React.FC = () => {
       },
       (reject: any) => {}
     );
-  }; 
+  };  
 
-  const saveFcmToken = (fcmToken: any) => {
-    // console.log(fcmToken,'fcmToken');
-    call_secure_api("saveFcmToken", { tkn: fcmToken, device_info: devideInfo }).then(
-      async (resolve: any) => {
-        if (resolve.status === true) {
-        } else {
-
-        }
-        setIsLoading(false);
-      },
-      (reject: any) => {
-        showToast("Server Error", "", "danger");
-      }
-    );
-  };
-  const showNotification = (msg: any) => {
-    if (confirm(msg)) {
-      ionRouter.push("notification");
-    }
-  };
   const uploadPhoto = () => {
     const dataparam = {
       image_link: photos,
@@ -245,6 +161,7 @@ const Dashboard: React.FC = () => {
       }
     );
   };
+
   const modalHandler = () => {
     setIsOpen(false);
   };
