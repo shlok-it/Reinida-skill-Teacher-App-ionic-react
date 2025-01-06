@@ -17,6 +17,8 @@ import { IonReactRouter } from "@ionic/react-router";
 import Home from "../pages/home/Home";
 import Layout from "../Layout";
 import LeaveList from "../pages/leave";
+import SurveryList from "../pages/survey";
+import SurveryAdd from "../pages/survey/Add";
 import Support from "../pages/support/index";
 import { useEffect } from "react";
 import Notifications from "../pages/notification";
@@ -40,6 +42,8 @@ const Routes: React.FC = (props) => {
     // { path: "/document-detail", exact: true, component: <DocumentDetail /> },
     // { path: "/report", exact: true, component: <UserReport /> },
     // { path: "/service", exact: true, component: <UserService /> },
+    { path: "/survery", exact: true, component: <SurveryList /> },
+    { path: "/survery/add", exact: true, component: <SurveryAdd /> },
    
   ];
   const publicRoutes = [

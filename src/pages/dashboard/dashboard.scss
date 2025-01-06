@@ -105,3 +105,33 @@ ion-note {
   font-size: 12px;
   border-radius: 5px;
 }
+.button-container{
+  padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+  ion-icon{
+    zoom:3;
+    // color: #47bfff;
+  }
+ 
+}
+.round{
+border-radius: 5px;
+}
+.blr-bg{
+background: rgba(255, 255, 255, 0.02);
+border-radius: 16px;
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(5.6px);
+-webkit-backdrop-filter: blur(5.6px);
+border: 1px solid rgba(255, 255, 255, 0.3);
+}
+.bg-color-1{
+  background: lightgray;
+}
+.bg-color-2{
+  background: lightgray;
+}

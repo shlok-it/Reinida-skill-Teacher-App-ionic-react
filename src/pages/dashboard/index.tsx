@@ -20,6 +20,8 @@ import {
   useIonRouter,
   IonSkeletonText,
   isPlatform,
+  IonGrid,
+  IonSpinner,
 } from "@ionic/react";
 import {
   logOutOutline,
@@ -27,6 +29,10 @@ import {
   logInOutline,
   checkmarkCircleOutline,
   locationOutline,
+  refresh,
+  list,
+  listCircle,
+  addCircle,
 } from "ionicons/icons";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { useEffect, useState } from "react";
@@ -46,8 +52,7 @@ import { userStatusBar } from "../../hooks/userStatusBar";
 import { NotificationIcon } from "../../components/NotificationIcon";
 import { OneSignalService } from "./OneSignalService";
 import secureLocalStorage from "react-secure-storage";
-
-
+import { survey_bg } from "../../connect/Images";
 const Dashboard: React.FC = () => {
   const { location, enableLocation } = deviceLocation();
   const { devideInfo, logDeviceInfo } = deviceInfo();
@@ -55,7 +60,7 @@ const Dashboard: React.FC = () => {
   const { takePhoto, photos, deletePhoto } = usePhoto();
   const [isOpen, setIsOpen] = useState(false);
   const [refreshcount, setRefreshcount] = useState(0);
-  const { currentUser, showToast, setNotificationCount}: any = useStateContext();
+  const { currentUser, showToast, setNotificationCount }: any = useStateContext();
   const [frame, setframe] = useState("");
   const [todayAttendenceIN, setTodayAttendenceIN] = useState<any>({});
   const [todayAttendenceOUT, setTodayAttendenceOUT] = useState<any>({});
@@ -84,12 +89,12 @@ const Dashboard: React.FC = () => {
       setIsOpen(true);
     }
   }, [photos, refreshcount]);
-  
-  useEffect(() => {   
-       if (isPlatform("capacitor") && Object.keys(devideInfo).length>0) {
-        if(!secureLocalStorage.getItem("one_token")){
-          startInitialize(devideInfo);
-        }
+
+  useEffect(() => {
+    if (isPlatform("capacitor") && Object.keys(devideInfo).length > 0) {
+      if (!secureLocalStorage.getItem("one_token")) {
+        startInitialize(devideInfo);
+      }
     }
   }, [devideInfo]);
 
@@ -134,10 +139,17 @@ const Dashboard: React.FC = () => {
         } else {
         }
       },
-      (reject: any) => {}
+      (reject: any) => { }
     );
-  };  
+  };
+  const reloadCurrentPage = () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setRefreshcount((oldPhoto) => oldPhoto + 1);
+      setIsLoading(false);
+    }, 2000);
 
+  }
   const uploadPhoto = () => {
     const dataparam = {
       image_link: photos,
@@ -180,10 +192,12 @@ const Dashboard: React.FC = () => {
     e.preventDefault();
     ionRouter.push("./attendace");
   };
-  const gotoProfile=()=>{
+  const gotoProfile = () => {
     ionRouter.push('/tabs/profile');
   }
-
+const navigateTo = (route:any)=>{
+  ionRouter.push(route);
+}
 
   return (
     <IonPage className="">
@@ -311,6 +325,7 @@ const Dashboard: React.FC = () => {
                   </IonLabel>
                 </IonItem>
               )}
+
               <IonItem mode="ios" lines="none">
                 <IonLabel className="ion-text-center">
                   <IonText>
@@ -332,6 +347,10 @@ const Dashboard: React.FC = () => {
                     </IonButton>
                   </IonText>
                 </IonLabel>
+                {isLoading && <IonSpinner name="lines-small"></IonSpinner>}
+                <IonButton onClick={() => reloadCurrentPage()} fill="solid" >
+                  <IonIcon icon={refresh}></IonIcon>
+                </IonButton>
                 <IonLabel className="ion-text-center">
                   <IonText>
                     <div className="ion-padding">
@@ -344,7 +363,7 @@ const Dashboard: React.FC = () => {
                       onClick={() => takattendence("OUT")}
                     >
                       <IonIcon
-                        aria-hidden="true"
+                        aria-hidden="false"
                         icon={
                           isCheckedOut ? checkmarkCircleOutline : logOutOutline
                         }
@@ -359,9 +378,28 @@ const Dashboard: React.FC = () => {
         </div>
         <div className="check_in_date">
           <div >
-            <strong className="text-danger">Note:</strong> The check-in/check-out button is only active during specific <span className="text-primary" onClick={(e)=>gotoProfile()}>time frames.</span>
+            <strong className="text-danger">Note:</strong> The check-in/check-out button is only active during specific <span className="text-primary" onClick={(e) => gotoProfile()}>time frames.</span>
           </div>
         </div>
+        <IonGrid>
+          <IonRow className="ion-padding-left ion-padding-right" style={{
+            backgroundImage: `url(${survey_bg})`, backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover', backgroundPosition: 'center'
+          }}>
+            <IonCol>
+              <div className="button-container blr-bg  round" onClick={()=>navigateTo('./take-survey')}>
+                <IonIcon color="primary" icon={addCircle}></IonIcon>
+                <p className="fw-bolder text-black fs-12">Take Survey</p>
+              </div>
+            </IonCol>
+            <IonCol >
+              <div className="button-container blr-bg  round" onClick={()=>navigateTo('./survey-list')}>
+                <IonIcon color="primary" icon={listCircle}></IonIcon>
+                <p className="fw-bolder text-black fs-12">Survey List</p>
+              </div>
+            </IonCol>
+          </IonRow>
+        </IonGrid>
         <IonRow>
           <IonCol>
             <IonItemDivider className="divider">
@@ -382,7 +420,7 @@ const Dashboard: React.FC = () => {
             <IonItem lines="none" className={isCheckedIn ? "bg1" : ""}>
               <IonIcon
                 aria-hidden="true"
-                icon={todayAttendenceIN?.created_at?checkmarkCircleOutline:logInOutline}
+                icon={todayAttendenceIN?.created_at ? checkmarkCircleOutline : logInOutline}
                 slot="start"
               ></IonIcon>
               <IonLabel>
@@ -392,7 +430,7 @@ const Dashboard: React.FC = () => {
                 </IonText>
               </IonLabel>
               <IonNote slot="end">
-                {(todayAttendenceIN?.created_at&&formatDateTime(todayAttendenceIN?.created_at,'time')) || "No record"}
+                {(todayAttendenceIN?.created_at && formatDateTime(todayAttendenceIN?.created_at, 'time')) || "No record"}
               </IonNote>
             </IonItem>
           </IonList>
@@ -402,7 +440,7 @@ const Dashboard: React.FC = () => {
             <IonItem lines="none" className={isCheckedOut ? "bg2" : ""}>
               <IonIcon
                 aria-hidden="true"
-                icon={todayAttendenceOUT?.created_at?checkmarkCircleOutline:logOutOutline}
+                icon={todayAttendenceOUT?.created_at ? checkmarkCircleOutline : logOutOutline}
                 slot="start"
               ></IonIcon>
               <IonLabel>
@@ -412,7 +450,7 @@ const Dashboard: React.FC = () => {
                 </IonText>
               </IonLabel>
               <IonNote slot="end">
-                {(todayAttendenceOUT?.created_at&&formatDateTime(todayAttendenceOUT?.created_at,'time')) || "No record"}
+                {(todayAttendenceOUT?.created_at && formatDateTime(todayAttendenceOUT?.created_at, 'time')) || "No record"}
               </IonNote>
             </IonItem>
           </IonList>
@@ -458,25 +496,6 @@ const Dashboard: React.FC = () => {
             </IonRow>
           </IonCard>
         )}
-
-        {/* <IonCard>
-          <IonList>
-            <IonItem lines="none">
-              <IonIcon
-                aria-hidden="true"
-                icon={calendarNumberOutline}
-                slot="start"
-              ></IonIcon>
-              <IonLabel>
-                <IonText>
-                  <h2>Holiday</h2>
-                  <p>Date</p>
-                </IonText>
-              </IonLabel>
-              <IonNote slot="end">15</IonNote>
-            </IonItem>
-          </IonList>
-        </IonCard> */}
       </IonContent>
     </IonPage>
   );

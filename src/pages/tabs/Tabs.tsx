@@ -56,7 +56,7 @@ const Tabs: React.FC = () => (
       <IonTabBar slot="bottom" translucent={true}>
         <IonTabButton tab="tabs/dashboard" href="/tabs/dashboard">
           <IonIcon
-            aria-hidden="true"
+            aria-hidden="false"
             icon={homeOutline}
             style={{ fontSize: "26px" }}
           />
@@ -67,20 +67,20 @@ const Tabs: React.FC = () => (
           href="/tabs/attendace"
           className="comments"
         >
-          <IonIcon aria-hidden="true" icon={listCircleOutline} />
+          <IonIcon aria-hidden="false" icon={listCircleOutline} />
           <IonLabel>Attendece</IonLabel>
         </IonTabButton>
         <IonTabButton tab="tabs/salary" href="/tabs/salary">
-          <IonIcon aria-hidden="true" icon={calendarOutline} />
+          <IonIcon aria-hidden="false" icon={calendarOutline} />
           <IonLabel>Salary</IonLabel>
         </IonTabButton>
         <IonTabButton tab="tabs/report" href="/tabs/report">
-          <IonIcon aria-hidden="true" icon={receiptOutline} />
+          <IonIcon aria-hidden="false" icon={receiptOutline} />
           <IonLabel>Report</IonLabel>
         </IonTabButton>
         <IonTabButton tab="tabs/profile" href="/tabs/profile">
           <IonIcon
-            aria-hidden="true"
+            aria-hidden="false"
             icon={personOutline}
             style={{ fontSize: "26px" }}
           />
