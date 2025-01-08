@@ -387,13 +387,13 @@ const navigateTo = (route:any)=>{
             backgroundSize: 'cover', backgroundPosition: 'center'
           }}>
             <IonCol>
-              <div className="button-container blr-bg  round" onClick={()=>navigateTo('./take-survey')}>
+              <div className="button-container blr-bg  round" onClick={()=>navigateTo('/survey/add')}>
                 <IonIcon color="primary" icon={addCircle}></IonIcon>
                 <p className="fw-bolder text-black fs-12">Take Survey</p>
               </div>
             </IonCol>
             <IonCol >
-              <div className="button-container blr-bg  round" onClick={()=>navigateTo('./survey-list')}>
+              <div className="button-container blr-bg  round" onClick={()=>navigateTo('/survey/list')}>
                 <IonIcon color="primary" icon={listCircle}></IonIcon>
                 <p className="fw-bolder text-black fs-12">Survey List</p>
               </div>
